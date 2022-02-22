@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Exec a command at a given date (date(1) format).
+#
+# Dependecies: date, expr, timer (with suid)
+
+if [ $# -ne 2 ] ; then
+    echo "Usage: timerat <target_date> <cmd>" >&2
+    exit 1
+fi
+
+diff_date () {
+    expr "$(date -d "$1" +%s)" - "$(date +%s)"
+}
+
+#if expr "$1" : '[0-9][0-9]*:[0-9]*$' > /dev/null ; then
+#    DAT=$(date -d "tomorrow $1" +%s)
+#else
+#    DAT=$(date -d "$1" +%s)
+#fi
+
+WAIT=$(diff_date "$1")
+if [ "$WAIT" -lt 0 ] ; then
+    WAIT=$(diff_date "tomorrow $1")
+elif [ "$WAIT" -le 0 ] ; then
+    echo "Can't wake up in the past! (wait: $WAIT sec)" >&2
+    exit 1
+else
+    echo "Waking up in $(date -ud "@$WAIT" +%T)"
+fi
+
+timer "$WAIT" "$2"

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+timerat "$1" "mpv ~/dl/sumomomo_momomo/*02.mp4"
