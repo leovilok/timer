@@ -1,5 +1,4 @@
 suid: timer
-	chmod u+s timer
-	su -c "chown root timer"
+	su -c "chown root timer && chmod u+s timer"
 
 .PHONY: suid
