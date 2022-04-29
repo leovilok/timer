@@ -25,8 +25,8 @@ if [ "$WAIT" -lt 0 ] ; then
 elif [ "$WAIT" -le 0 ] ; then
     echo "Can't wake up in the past! (wait: $WAIT sec)" >&2
     exit 1
-else
-    echo "Waking up in $(date -ud "@$WAIT" +%T)"
 fi
+
+echo "Waking up in $(date -ud "@$WAIT" +%T)"
 
 timer "$WAIT" "$2"
